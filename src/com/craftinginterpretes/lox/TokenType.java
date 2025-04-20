@@ -1,4 +1,4 @@
-﻿package com.craftinginterpretes.lox;
+package com.craftinginterpretes.lox;
 
 
 enum TokenType {

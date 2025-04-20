@@ -7,6 +7,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import com.craftinginterpretes.lox.Scanner;
+import com.craftinginterpretes.lox.TokenType;
 
 class Token {
     final TokenType type;
