@@ -1,6 +1,23 @@
 ﻿package com.craftinginterpretes.lox;
 import java.util.List;
 import static com.craftinginterpretes.lox.TokenType.*;
+
+//
+//expression → equality
+//equality   → comparison
+//comparison → term
+//term       → factor
+//factor     → unary
+//unary      → primary
+
+
+//Esse é um parser, então precisamos ter em mente o que estamos lidando.
+//Como visto acima o parser possui uma ordem de precedencia. Assim como uma linguagem de prog.
+//ele primeiro chama o expression se verifica se equality (sinal de igual)
+//depois ele vai verificar se tem comparações
+//e verifica se tem termos
+//depois verifica se é soma, multiplicação, divisão, ou unary (-1)
+
 class Parser {
     private final List<Token> tokens;
     private int current = 0;
@@ -73,6 +90,27 @@ class Parser {
         }
         return null;
     }
+
+    //Match verifica os TOKENS e se são do tipo que eu quero. Interessante
+
+//    Expr expr = term(); → lê 3
+//
+//    match(<, <=, >, >=) → vê < → consome <
+//
+//            Token operator = previous(); → <
+//
+//            Expr right = term(); → lê 4
+//
+//    expr = new Binary(3, <, 4)
+//
+//    match(<, <=, >, >=) → vê > → consome >
+//
+//    operator = previous(); → >
+//
+//    right = term(); → lê 2
+//
+//    expr = new Binary(expr, >, 2)
+//    Agora expr é: ((3 < 4) > 2)
     private boolean match(TokenType... types) {
         for (TokenType type : types) {
             if (check(type)) {
