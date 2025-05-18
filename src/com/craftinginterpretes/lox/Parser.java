@@ -93,7 +93,14 @@ class Parser {
             consume(RIGHT_PAREN, "Expect ')' after expression.");
             return new Expr.Grouping(expr);
         }
-        return null;
+        throw error(peek(), "Expect expression.");
+    }
+    Expr parse() {
+        try {
+            return expression();
+        } catch (ParseError error) {
+            return null;
+        }
     }
 
     //Match verifica os TOKENS e se são do tipo que eu quero. Interessante
@@ -134,14 +141,26 @@ class Parser {
         Lox.error(token, message);
         return new ParseError();
     }
-    static void error(Token token, String message) {
-        if (token.type == TokenType.EOF) {
-            report(token.line, " at end", message);
-        } else {
-            report(token.line, " at '" + token.lexeme + "'", message);
-        }
 
+    private void synchronize() {
+        advance();
+        while (!isAtEnd()) {
+            if (previous().type == SEMICOLON) return;
+            switch (peek().type) {
+                case CLASS:
+                case FUN:
+                case VAR:
+                case FOR:
+                case IF:
+                case WHILE:
+                case PRINT:
+                case RETURN:
+                    return;
+            }
+            advance();
+        }
     }
+
         private boolean check(TokenType type) {
         if (isAtEnd()) return false;
         return peek().type == type;
