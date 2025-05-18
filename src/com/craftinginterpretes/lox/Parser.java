@@ -125,7 +125,19 @@ class Parser {
         if (check(type)) return advance();
         throw error(peek(), message);
     }
-    private boolean check(TokenType type) {
+    private ParseError error(Token token, String message) {
+        Lox.error(token, message);
+        return new ParseError();
+    }
+    static void error(Token token, String message) {
+        if (token.type == TokenType.EOF) {
+            report(token.line, " at end", message);
+        } else {
+            report(token.line, " at '" + token.lexeme + "'", message);
+        }
+
+    }
+        private boolean check(TokenType type) {
         if (isAtEnd()) return false;
         return peek().type == type;
     }
