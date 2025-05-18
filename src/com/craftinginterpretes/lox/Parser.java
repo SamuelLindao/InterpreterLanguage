@@ -19,6 +19,11 @@ import static com.craftinginterpretes.lox.TokenType.*;
 //depois verifica se é soma, multiplicação, divisão, ou unary (-1)
 
 class Parser {
+    //É uma classe parser estatica que herda de uma classe RuntimeExeception
+    //É uma classe que pode ser acessada fora sem a necessidade da criação de um novo objeto
+    //Util (e será) para dar throw em exceções que serão captados pelo Try-catch
+    private static class ParseError extends RuntimeException {}
+
     private final List<Token> tokens;
     private int current = 0;
 
