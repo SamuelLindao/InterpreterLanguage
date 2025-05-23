@@ -137,10 +137,6 @@ class Parser {
         if (check(type)) return advance();
         throw error(peek(), message);
     }
-    private ParseError error(Token token, String message) {
-        Lox.error(token, message);
-        return new ParseError();
-    }
 
     private void synchronize() {
         advance();
@@ -183,5 +179,9 @@ class Parser {
         return tokens.get(current - 1);
     }
 
+    private ParseError error(Token token, String message) {
+        Lox.error(token, message);
+        return new ParseError();
+    }
 
 }
